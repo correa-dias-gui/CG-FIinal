@@ -16,7 +16,11 @@ def run_test(description, script_path, working_dir):
     
     try:
         # Ativar ambiente virtual e executar o script
-        cmd = f"cd '{working_dir}' && bash -c 'source venv/bin/activate && python {script_path}'"
+        script_dir = os.path.dirname(script_path) if '/' in script_path else ''
+        script_name = os.path.basename(script_path)
+        full_working_dir = os.path.join(working_dir, script_dir) if script_dir else working_dir
+        
+        cmd = f"cd '{full_working_dir}' && bash -c 'source {working_dir}/venv/bin/activate && python {script_name}'"
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=30)
         
         if result.returncode == 0:
@@ -47,12 +51,12 @@ def main():
     
     # Lista de testes a serem executados
     tests = [
-        ("Exercício 1 - Redução de Grau", "bezier/main_bezier.py", base_dir),
-        ("Exercício 2 - Aumento de Grau", "bezier/test_aumento_grau.py", base_dir),
-        ("Exercício 3 - Superfície de Revolução", "superficies/revolucao.py", base_dir),
-        ("Exercício 4 - Superfície de Varredura", "superficies/varredura.py", base_dir),
-        ("Extra - Asa de Avião", "superficies/test_asa_aviao.py", base_dir),
-        ("Exercício 5 - Rendering Phong (Teste)", "render/test_rendering.py", base_dir)
+        ("Exercício 1 - Redução de Grau (OpenGL)", "bezier/main_bezier.py", base_dir),
+        ("Exercício 2 - Aumento de Grau (OpenGL)", "bezier/test_aumento_grau.py", base_dir),
+        ("Exercício 3 - Superfície de Revolução (OpenGL)", "superficies/revolucao.py", base_dir),
+        ("Exercício 4 - Superfície de Varredura (OpenGL)", "superficies/test_varredura.py", base_dir),
+        ("Extra - Asa de Avião (OpenGL)", "superficies/test_asa_aviao.py", base_dir),
+        ("Exercício 5 - Rendering Phong (Completo)", "render/test_rendering.py", base_dir)
     ]
     
     success_count = 0

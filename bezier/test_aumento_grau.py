@@ -1,7 +1,8 @@
 import numpy as np
-import matplotlib.pyplot as plt
+import sys
 from grau_aumento import aumento_grau
 from bezier_utils import bezier_curve
+from visualizacao import plot_curves_2d
 
 # Curva de Bézier quadrática
 P = np.array([[0, 0], [1, 2], [4, 0]])
@@ -15,16 +16,40 @@ print(f"Curva após aumento de grau - grau {len(Q)-1}: {Q}")
 C1 = bezier_curve(P)
 C2 = bezier_curve(Q)
 
-plt.figure(figsize=(10, 6))
-plt.plot(C1[:,0], C1[:,1], 'b-', linewidth=2, label="Original (quadrática)")
-plt.plot(C2[:,0], C2[:,1], 'r--', linewidth=2, label="Aumento de grau (cúbica)")
-plt.scatter(P[:,0], P[:,1], color='blue', s=80, label='Pontos controle originais')
-plt.scatter(Q[:,0], Q[:,1], color='red', s=80, label='Novos pontos controle')
-plt.legend()
-plt.title("Aumento de Grau de Curva de Bézier")
-plt.grid(True, alpha=0.3)
-plt.axis('equal')
-plt.show()
+# Preparar dados para visualização
+curves_data = [
+    {
+        'points': C1,
+        'label': 'Original (quadrática)',
+        'color': (0, 0, 1),  # azul
+        'line_style': 'solid'
+    },
+    {
+        'points': C2,
+        'label': 'Aumento de grau (cúbica)',
+        'color': (1, 0, 0),  # vermelho
+        'line_style': 'dashed'
+    },
+    {
+        'points': P,
+        'label': 'Pontos controle originais',
+        'color': (0, 0, 1),  # azul
+        'point_style': 'scatter'
+    },
+    {
+        'points': Q,
+        'label': 'Novos pontos controle',
+        'color': (1, 0, 0),  # vermelho
+        'point_style': 'scatter'
+    }
+]
+
+if 'matplotlib' in sys.argv:
+    print("Usando matplotlib para visualização")
+else:
+    print("Usando OpenGL para visualização (use 'matplotlib' como argumento para matplotlib)")
+
+plot_curves_2d(curves_data, "Aumento de Grau de Curva de Bézier")
 
 # Verificar se as curvas são geometricamente equivalentes
 # comparando pontos ao longo da curva

@@ -1,7 +1,8 @@
 import numpy as np
-import matplotlib.pyplot as plt
+import sys
 from grau_reducao import reduzir_cubica_para_quadratica, erro_maximo
 from bezier_utils import bezier_curve
+from visualizacao import plot_curves_2d
 
 P = np.array([[0,0], [1,2], [3,2], [4,0]])
 
@@ -11,10 +12,38 @@ erro = erro_maximo(P, Q)
 C1 = bezier_curve(P)
 C2 = bezier_curve(Q)
 
-plt.plot(C1[:,0], C1[:,1], label="Cúbica")
-plt.plot(C2[:,0], C2[:,1], '--', label="Quadrática")
-plt.scatter(P[:,0], P[:,1])
-plt.scatter(Q[:,0], Q[:,1])
-plt.legend()
-plt.title(f"Erro máximo = {erro:.4f}")
-plt.show()
+# Preparar dados para visualização
+curves_data = [
+    {
+        'points': C1,
+        'label': 'Cúbica',
+        'color': (0, 0, 1),  # azul
+        'line_style': 'solid'
+    },
+    {
+        'points': C2,
+        'label': 'Quadrática',
+        'color': (1, 0, 0),  # vermelho
+        'line_style': 'dashed'
+    },
+    {
+        'points': P,
+        'label': 'Pontos controle original',
+        'color': (0, 0, 1),  # azul
+        'point_style': 'scatter'
+    },
+    {
+        'points': Q,
+        'label': 'Pontos controle reduzido',
+        'color': (1, 0, 0),  # vermelho
+        'point_style': 'scatter'
+    }
+]
+
+print(f"Erro máximo = {erro:.4f}")
+if 'matplotlib' in sys.argv:
+    print("Usando matplotlib para visualização")
+else:
+    print("Usando OpenGL para visualização (use 'matplotlib' como argumento para matplotlib)")
+
+plot_curves_2d(curves_data, f"Redução de Grau - Erro máximo = {erro:.4f}")

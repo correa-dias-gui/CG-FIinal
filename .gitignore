@@ -1,2 +1,6 @@
 venv/
 ./TESTS_STATUS.md
+./EXERCICIO_5_COMPLETO.md
+./VISUALIZACAO_ATUALIZADA.md
+./*.cpython-*
+__pycache__/
