@@ -1,4 +1,5 @@
 # Trabalho Final – Computação Gráfica  
+## Guilherme Dias Correa - 22352926
 **Curvas de Bézier, Superfícies e Rendering (Phong)**
 
 Este repositório contém a implementação completa de **todas as tarefas do PDF**, com os códigos **organizados em arquivos separados**, conforme solicitado.
